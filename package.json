@@ -6,13 +6,18 @@
   "type": "commonjs",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "tsc --watch & nodemon dist",
+    "dev": "concurrently \"tsc --watch\" \"nodemon ./dist/index.js\"",
     "build": "tsc",
     "start": "node dist"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.21.1"
+    "express": "^4.21.1",
+    "nodemon": "^3.1.7"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.0",
+    "concurrently": "^9.0.1"
   }
 }
