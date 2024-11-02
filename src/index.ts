@@ -1,9 +1,12 @@
+import cors from "cors";
 import express from "express";
 import router from "./api/routes/index.routes";
 
 export const app = express();
 
 /* Middlewares */
+app.use(express.json());
+app.use(cors({ origin: "*" }));
 
 /* Routes */
 app.use(router);

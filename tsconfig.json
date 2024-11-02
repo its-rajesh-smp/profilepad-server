@@ -6,7 +6,11 @@
     "esModuleInterop": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
-    "outDir": "./dist" // Output directory for compiled files
+    "outDir": "./dist", // Output directory for compiled files
+    "baseUrl": ".", // Allow @ imports
+    "paths": {
+      "@/*": ["src/*"]
+    }
   },
   "include": ["./src/**/*"],
   "exclude": ["node_modules"]

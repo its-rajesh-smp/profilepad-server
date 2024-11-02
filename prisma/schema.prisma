@@ -26,10 +26,9 @@ model User {
   name  String?
 }
 
-model Layout {
+model LayoutGroup {
   id String @id @default(uuid())
   data Json
-
   LayoutItem LayoutItem[]
 }
 
@@ -43,6 +42,6 @@ model LayoutItem {
   src String?
   metadata Json?
 
-  layoutId String
-  layout Layout @relation(fields: [layoutId],references: [id], onDelete: Cascade)
+  layoutGroupId String
+  layoutGroup LayoutGroup @relation(fields: [layoutGroupId],references: [id], onDelete: Cascade)
 }
