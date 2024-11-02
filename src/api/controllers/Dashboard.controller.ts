@@ -11,7 +11,7 @@ class DashboardController {
   }
 
   static async createDashboardLayout(req: Request, res: Response) {
-    const { type } = req.body;
+    const { data } = req.body;
 
     // const createdLayoutGroup = await LayoutGroupService.createOne({
     //   data: defaultLayoutGroup,
@@ -21,7 +21,7 @@ class DashboardController {
     });
 
     const createdLayoutItem = await LayoutItemService.createOne({
-      type,
+      ...data,
       layoutGroupId: defaultLayoutId,
     });
 

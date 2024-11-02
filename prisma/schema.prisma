@@ -37,8 +37,10 @@ model LayoutItem {
   id String @id @default(uuid())
 
   type LayoutItemType
-  link String?
+  url String?
   text String?
+  btnText String?
+  desc String?
   src String?
   metadata Json?
 
