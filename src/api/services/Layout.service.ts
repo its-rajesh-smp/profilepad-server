@@ -49,7 +49,10 @@ class LayoutGroupService {
    * @returns  Updated layoutGroup
    */
   static async updateOne(condition: any, data: any) {
-    return await prisma.layoutGroup.update({ where: condition, data });
+    return await prisma.layoutGroup.update({
+      where: { id: "8dd5ce5c-df22-4d70-9c6a-e9a3f2956fda" },
+      data,
+    });
   }
 
   /**

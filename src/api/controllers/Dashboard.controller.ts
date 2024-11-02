@@ -7,7 +7,6 @@ import { sendResponse } from "../utils/response.util";
 class DashboardController {
   static async getDashboardLayout(req: Request, res: Response) {
     const layoutGroup = await LayoutGroupService.findOneWithLayoutItem();
-
     sendResponse(res, layoutGroup);
   }
 
@@ -30,7 +29,16 @@ class DashboardController {
   }
 
   static async updateDashboardLayout(req: Request, res: Response) {
-    res.status(200).send("Dashboard");
+    const { layoutGroup } = req.body;
+    console.log(layoutGroup);
+    const updatedLayoutGroup = await LayoutGroupService.updateOne(
+      {},
+      {
+        data: layoutGroup,
+      }
+    );
+
+    sendResponse(res, updatedLayoutGroup);
   }
 }
 

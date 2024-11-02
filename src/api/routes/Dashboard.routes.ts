@@ -12,7 +12,7 @@ DashboardRoutes.post(
 );
 
 DashboardRoutes.patch(
-  "/layout/update/:id",
+  "/layout/update",
   DashboardController.updateDashboardLayout
 );
 
