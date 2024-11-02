@@ -1,4 +1,5 @@
 import prisma from "@/config/prisma.conf";
+import { defaultLayoutId } from "../constants/layout.const";
 
 /**
  * Service class for layoutGroup model
@@ -26,7 +27,7 @@ class LayoutGroupService {
 
   static async findOneWithLayoutItem(condition: any = {}) {
     return await prisma.layoutGroup.findFirst({
-      where: { id: "8dd5ce5c-df22-4d70-9c6a-e9a3f2956fda" },
+      where: { id: defaultLayoutId },
       include: { LayoutItem: true },
     });
   }
@@ -50,7 +51,7 @@ class LayoutGroupService {
    */
   static async updateOne(condition: any, data: any) {
     return await prisma.layoutGroup.update({
-      where: { id: "8dd5ce5c-df22-4d70-9c6a-e9a3f2956fda" },
+      where: { id: defaultLayoutId },
       data,
     });
   }

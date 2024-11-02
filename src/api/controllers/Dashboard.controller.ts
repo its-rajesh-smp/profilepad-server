@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { defaultLayoutGroup } from "../constants/layout.const";
+import { defaultLayoutGroup, defaultLayoutId } from "../constants/layout.const";
 import LayoutGroupService from "../services/Layout.service";
 import LayoutItemService from "../services/LayoutItem.service";
 import { sendResponse } from "../utils/response.util";
@@ -13,24 +13,27 @@ class DashboardController {
   static async createDashboardLayout(req: Request, res: Response) {
     const { type } = req.body;
 
-    const createdLayoutGroup = await LayoutGroupService.createOne({
-      data: defaultLayoutGroup,
+    // const createdLayoutGroup = await LayoutGroupService.createOne({
+    //   data: defaultLayoutGroup,
+    // });
+    const createdLayoutGroup = await LayoutGroupService.findOne({
+      id: defaultLayoutId,
     });
 
     const createdLayoutItem = await LayoutItemService.createOne({
       type,
-      layoutGroupId: createdLayoutGroup.id,
+      layoutGroupId: defaultLayoutId,
     });
 
     sendResponse(res, {
-      layoutGroup: createdLayoutItem,
-      layoutItem: createdLayoutGroup,
+      layoutGroup: createdLayoutGroup,
+      layoutItem: createdLayoutItem,
     });
   }
 
   static async updateDashboardLayout(req: Request, res: Response) {
     const { layoutGroup } = req.body;
-    console.log(layoutGroup);
+
     const updatedLayoutGroup = await LayoutGroupService.updateOne(
       {},
       {
