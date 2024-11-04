@@ -41,7 +41,7 @@ class DashboardController {
       }
     );
 
-    sendResponse(res, updatedLayoutGroup);
+    sendResponse(res, true);
   }
 }
 

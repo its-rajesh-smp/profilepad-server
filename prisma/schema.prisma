@@ -24,6 +24,9 @@ model User {
   id    Int     @id @default(autoincrement())
   email String  @unique
   name  String?
+  headline String?
+  profileImageSrc String?
+  slug String? @unique
 }
 
 model LayoutGroup {

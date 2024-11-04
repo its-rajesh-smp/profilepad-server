@@ -15,7 +15,9 @@ class LayoutGroupService {
    */
 
   static async findOne(condition: any = {}) {
-    return await prisma.layoutGroup.findUnique({ where: condition });
+    return await prisma.layoutGroup.findUnique({
+      where: { id: defaultLayoutId },
+    });
   }
 
   /**
