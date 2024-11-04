@@ -21,18 +21,26 @@ enum LayoutItemType {
 }
 
 model User {
-  id    Int     @id @default(autoincrement())
+  id String @id @default(uuid())
   email String  @unique
+  password String
   name  String?
   headline String?
   profileImageSrc String?
   slug String? @unique
+
+  dashboard Dashboard[]
+  layoutItems LayoutItem[]
 }
 
-model LayoutGroup {
+model Dashboard {
   id String @id @default(uuid())
-  data Json
-  LayoutItem LayoutItem[]
+  gridLayoutConfig  Json
+
+  userId String @unique
+  user User @relation(fields: [userId],references: [id],onDelete: Cascade)
+
+  layoutItems LayoutItem[]
 }
 
 
@@ -47,6 +55,10 @@ model LayoutItem {
   src String?
   metadata Json?
 
-  layoutGroupId String
-  layoutGroup LayoutGroup @relation(fields: [layoutGroupId],references: [id], onDelete: Cascade)
+
+  userId String @unique
+  user User @relation(fields: [userId],references: [id],onDelete: Cascade)
+
+  dashboardId String
+  dashboard Dashboard @relation(fields: [dashboardId],references: [id], onDelete: Cascade)
 }

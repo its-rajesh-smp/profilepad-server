@@ -1,37 +1,39 @@
 import { Request, Response } from "express";
-import { defaultLayoutGroup, defaultLayoutId } from "../constants/layout.const";
-import LayoutGroupService from "../services/Layout.service";
-import LayoutItemService from "../services/LayoutItem.service";
+import { defaultLayoutGroup } from "../constants/layout.const";
+import LayoutGroupService from "../services/Dashboard.service";
 import { sendResponse } from "../utils/response.util";
 
 class DashboardController {
-  static async getDashboardLayout(req: Request, res: Response) {
-    const layoutGroup = await LayoutGroupService.findOneWithLayoutItem();
+  static async getDashboard(req: Request, res: Response) {
+    const { id } = req.user;
+
+    const layoutGroup = await LayoutGroupService.findOneWithLayoutItem({
+      userId: id,
+    });
+
+    if (!layoutGroup) {
+      DashboardController.createDashboard(req, res);
+      return;
+    }
+
     sendResponse(res, layoutGroup);
   }
 
-  static async createDashboardLayout(req: Request, res: Response) {
-    const { data } = req.body;
+  static async createDashboard(req: Request, res: Response) {
+    const { user } = req;
 
-    // const createdLayoutGroup = await LayoutGroupService.createOne({
-    //   data: defaultLayoutGroup,
-    // });
-    const createdLayoutGroup = await LayoutGroupService.findOne({
-      id: defaultLayoutId,
-    });
-
-    const createdLayoutItem = await LayoutItemService.createOne({
-      ...data,
-      layoutGroupId: defaultLayoutId,
+    const createdLayoutGroup = await LayoutGroupService.createOne({
+      data: defaultLayoutGroup,
+      userId: user.id,
     });
 
     sendResponse(res, {
       layoutGroup: createdLayoutGroup,
-      layoutItem: createdLayoutItem,
+      layoutItems: [],
     });
   }
 
-  static async updateDashboardLayout(req: Request, res: Response) {
+  static async updateDashboard(req: Request, res: Response) {
     const { layoutGroup } = req.body;
 
     const updatedLayoutGroup = await LayoutGroupService.updateOne(

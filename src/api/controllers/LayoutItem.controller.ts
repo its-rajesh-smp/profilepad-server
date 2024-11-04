@@ -8,7 +8,6 @@ class LayoutItemController {
     const { data } = req.body;
 
     const updatedLayoutItem = await LayoutItemService.updateOne({ id }, data);
-
     sendResponse(res, updatedLayoutItem);
   }
 }

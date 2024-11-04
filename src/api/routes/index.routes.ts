@@ -1,12 +1,14 @@
 import { Router } from "express";
-import DashboardRoutes from "./Dashboard.routes";
-import LayoutItemRoutes from "./LayoutItem.routes";
+import dashboardRoutes from "./Dashboard.routes";
+import layoutItemRoutes from "./LayoutItem.routes";
+import userRoutes from "./User.routes";
 
 // Router
 const router = Router();
 
 // Router Mapping
-router.use("/dashboard", DashboardRoutes);
-router.use("/layout-item", LayoutItemRoutes);
+router.use("/user", userRoutes);
+router.use("/dashboard", dashboardRoutes);
+router.use("/layout-item", layoutItemRoutes);
 
 export default router;

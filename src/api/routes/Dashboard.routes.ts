@@ -1,19 +1,22 @@
 import { Router } from "express";
 import DashboardController from "../controllers/Dashboard.controller";
+import AuthMiddleware from "../middlewares/AuthMiddleware";
 
-const DashboardRoutes = Router();
+const dashboardRoutes = Router();
 
 // Routes
-DashboardRoutes.get("/layout", DashboardController.getDashboardLayout);
+dashboardRoutes.get("/", AuthMiddleware, DashboardController.getDashboard);
 
-DashboardRoutes.post(
-  "/layout/create",
-  DashboardController.createDashboardLayout
+dashboardRoutes.post(
+  "/create",
+  AuthMiddleware,
+  DashboardController.createDashboard
 );
 
-DashboardRoutes.patch(
-  "/layout/update",
-  DashboardController.updateDashboardLayout
+dashboardRoutes.patch(
+  "/update",
+  AuthMiddleware,
+  DashboardController.updateDashboard
 );
 
-export default DashboardRoutes;
+export default dashboardRoutes;
