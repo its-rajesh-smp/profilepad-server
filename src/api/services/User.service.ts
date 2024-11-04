@@ -12,6 +12,10 @@ class UserService {
   static async createOne(data: any) {
     return await prisma.user.create({ data });
   }
+
+  static async updateOne(condition: any, data: any) {
+    return await prisma.user.update({ where: condition, data });
+  }
 }
 
 export default UserService;

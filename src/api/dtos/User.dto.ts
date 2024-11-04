@@ -7,3 +7,13 @@ export const registerSchema = z.object({
     slug: z.string().min(1, "Slug cannot be empty"), // Ensures slug is not empty
   }),
 });
+
+export const updateUserProfileSchema = z
+  .object({
+    data: z.object({
+      name: z.string().optional(),
+      headline: z.string().optional(),
+      profileImageSrc: z.string().optional(),
+    }),
+  })
+  .strict();

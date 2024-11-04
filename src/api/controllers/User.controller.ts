@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import UserService from "../services/User.service";
 import { sendErrorResponse, sendResponse } from "../utils/response.util";
-import { registerSchema } from "../dtos/User.dto";
+import { registerSchema, updateUserProfileSchema } from "../dtos/User.dto";
 import { createHash } from "../utils/bcrypt.util";
 import { createJWTToken } from "../utils/jwt.util";
 
@@ -69,5 +69,15 @@ export default class UserController {
   static async verifyUser(req: Request, res: Response) {
     const { user } = req;
     sendResponse(res, { user }, 200);
+  }
+
+  static async updateUser(req: Request, res: Response) {
+    const { user } = req;
+
+    // Allow only name, headline, profileImageSrc to be updated
+    const { data } = updateUserProfileSchema.parse(req.body);
+
+    const updatedUser = await UserService.updateOne({ id: user.id }, data);
+    sendResponse(res, { user: updatedUser }, 200);
   }
 }

@@ -8,5 +8,6 @@ const UserRoutes = Router();
 UserRoutes.post("/register", UserController.registerUser);
 UserRoutes.get("/verify", AuthMiddleware, UserController.verifyUser);
 UserRoutes.post("/verify-slug", UserController.verifySlug);
+UserRoutes.patch("/update/profile", AuthMiddleware, UserController.updateUser);
 
 export default UserRoutes;
