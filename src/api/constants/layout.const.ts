@@ -3,4 +3,9 @@ export const defaultLayoutGroup = {
   xs: [],
 };
 
-export const defaultLayoutItems = [{}];
+export const defaultGridLayoutConfigItem = {
+  x: 0,
+  y: 0,
+  w: 1,
+  h: 1,
+};

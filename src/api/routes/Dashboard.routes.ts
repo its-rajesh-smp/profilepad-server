@@ -14,7 +14,7 @@ dashboardRoutes.post(
 );
 
 dashboardRoutes.patch(
-  "/update",
+  "/grid-layout-config/update",
   AuthMiddleware,
   DashboardController.updateDashboard
 );
