@@ -20,8 +20,6 @@ class LayoutItemController {
       return;
     }
 
-    console.log(id);
-
     const layoutItem = await LayoutItemService.createOne({
       ...data,
       userId: id,
@@ -30,7 +28,8 @@ class LayoutItemController {
 
     const updatedGridLayoutConfig = addNewItemToGridLayoutConfig(
       dashboard.gridLayoutConfig,
-      { ...defaultGridLayoutConfigItem, i: layoutItem.id }
+      { ...defaultGridLayoutConfigItem, i: layoutItem.id },
+      { type: data.type }
     );
 
     const updatedDashboard = await DashboardService.updateOne(

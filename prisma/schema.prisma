@@ -18,6 +18,8 @@ enum LayoutItemType {
   text
   image
   link
+  section
+  empty
 }
 
 model User {
