@@ -5,8 +5,11 @@ class UserService {
     return await prisma.user.findUnique({ where: condition });
   }
 
-  static async findUnique(condition: any = {}) {
-    return await prisma.user.findUnique({ where: condition });
+  static async findUnique(condition: any = {}, options: any = {}) {
+    return await prisma.user.findUnique({
+      where: condition,
+      ...options,
+    });
   }
 
   static async createOne(data: any) {

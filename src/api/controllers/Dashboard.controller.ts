@@ -2,9 +2,46 @@ import { Request, Response } from "express";
 import { defaultLayoutGroup } from "../constants/layout.const";
 import DashboardService from "../services/Dashboard.service";
 import { sendErrorResponse, sendResponse } from "../utils/response.util";
+import UserService from "../services/User.service";
 
 class DashboardController {
-  static async getDashboard(req: Request, res: Response) {
+  static async getDashboardPreview(req: Request, res: Response) {
+    const { slug } = req.params;
+
+    const user = await UserService.findUnique(
+      { slug },
+      {
+        select: {
+          headline: true,
+          profileImageSrc: true,
+          slug: true,
+          name: true,
+        },
+      }
+    );
+
+    if (!user) {
+      sendErrorResponse(res, "User not found", 404);
+      return;
+    }
+
+    const dashboard = await DashboardService.findOneWithLayoutItem({
+      userId: user.id,
+    });
+
+    if (!dashboard) {
+      sendErrorResponse(res, "Dashboard not found", 404);
+      return;
+    }
+
+    sendResponse(res, {
+      gridLayoutConfig: dashboard.gridLayoutConfig,
+      layoutItems: dashboard.layoutItems,
+      user,
+    });
+  }
+
+  static async getDashboardOrCreate(req: Request, res: Response) {
     const { id } = req.user;
 
     const dashboard = await DashboardService.findOneWithLayoutItem({

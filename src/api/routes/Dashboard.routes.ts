@@ -5,7 +5,12 @@ import AuthMiddleware from "../middlewares/AuthMiddleware";
 const dashboardRoutes = Router();
 
 // Routes
-dashboardRoutes.get("/", AuthMiddleware, DashboardController.getDashboard);
+dashboardRoutes.get(
+  "/",
+  AuthMiddleware,
+  DashboardController.getDashboardOrCreate
+);
+dashboardRoutes.get("/preview/:slug", DashboardController.getDashboardPreview);
 
 dashboardRoutes.post(
   "/create",
