@@ -6,6 +6,6 @@ export const defaultLayoutGroup = {
 export const defaultGridLayoutConfigItem = {
   x: 0,
   y: 0,
-  w: 1,
-  h: 1,
+  w: 2,
+  h: 2,
 };
