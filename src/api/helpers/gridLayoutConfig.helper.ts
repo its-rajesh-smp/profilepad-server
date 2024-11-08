@@ -15,6 +15,21 @@ export const addNewItemToGridLayoutConfig = (
   Object.keys(layoutConfig).forEach((key) => {
     layoutConfig[key].push(newItem);
   });
-  console.log(layoutConfig);
+
   return layoutConfig;
+};
+
+export const deleteItemFromGridLayoutConfig = (
+  layoutConfig: any,
+  id: string
+) => {
+  const updatedLayoutConfig: { [key: string]: [] } = {};
+
+  Object.keys(layoutConfig).forEach((key) => {
+    updatedLayoutConfig[key] = layoutConfig[key].filter(
+      (item: any) => item.id !== id
+    );
+  });
+
+  return updatedLayoutConfig;
 };

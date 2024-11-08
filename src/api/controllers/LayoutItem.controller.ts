@@ -1,6 +1,9 @@
 import { Request, Response } from "express";
 import { defaultGridLayoutConfigItem } from "../constants/layout.const";
-import { addNewItemToGridLayoutConfig } from "../helpers/gridLayoutConfig.helper";
+import {
+  addNewItemToGridLayoutConfig,
+  deleteItemFromGridLayoutConfig,
+} from "../helpers/gridLayoutConfig.helper";
 import DashboardService from "../services/Dashboard.service";
 import LayoutItemService from "../services/LayoutItem.service";
 import { sendErrorResponse, sendResponse } from "../utils/response.util";
@@ -46,6 +49,36 @@ class LayoutItemController {
 
     const updatedLayoutItem = await LayoutItemService.updateOne({ id }, data);
     sendResponse(res, updatedLayoutItem);
+  }
+
+  static async deleteLayoutItem(req: Request, res: Response) {
+    const user = req.user;
+    const { id: itemId } = req.params;
+    const dashboard = await DashboardService.findOne({ userId: user.id });
+
+    if (!dashboard) {
+      sendErrorResponse(res, "Dashboard not found", 404);
+      return;
+    }
+
+    const updatedGridLayoutConfig = deleteItemFromGridLayoutConfig(
+      dashboard.gridLayoutConfig,
+      itemId
+    );
+
+    await Promise.all([
+      LayoutItemService.delete({ id: itemId }),
+      DashboardService.updateOne(
+        { id: dashboard.id },
+        { gridLayoutConfig: updatedGridLayoutConfig }
+      ),
+    ]);
+
+    const updatedDashboard = await DashboardService.findOneWithLayoutItem({
+      userId: user.id,
+    });
+
+    sendResponse(res, updatedDashboard);
   }
 }
 

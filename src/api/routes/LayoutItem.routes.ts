@@ -15,5 +15,10 @@ LayoutItemRoutes.patch(
   AuthMiddleware,
   LayoutItemController.updateLayoutItem
 );
+LayoutItemRoutes.delete(
+  "/delete/:id",
+  AuthMiddleware,
+  LayoutItemController.deleteLayoutItem
+);
 
 export default LayoutItemRoutes;

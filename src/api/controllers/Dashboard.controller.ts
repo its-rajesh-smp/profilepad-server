@@ -3,6 +3,7 @@ import { defaultLayoutGroup } from "../constants/layout.const";
 import DashboardService from "../services/Dashboard.service";
 import { sendErrorResponse, sendResponse } from "../utils/response.util";
 import UserService from "../services/User.service";
+import LayoutItemService from "../services/LayoutItem.service";
 
 class DashboardController {
   static async getDashboardPreview(req: Request, res: Response) {
@@ -80,7 +81,7 @@ class DashboardController {
       return;
     }
 
-    const updatedLayoutGroup = await DashboardService.updateOne(
+    await DashboardService.updateOne(
       { id: dashboard.id },
       {
         gridLayoutConfig: updatedGridLayoutConfig,
@@ -88,6 +89,35 @@ class DashboardController {
     );
 
     sendResponse(res, true);
+  }
+
+  static async resetDashboard(req: Request, res: Response) {
+    const { id } = req.user;
+
+    const dashboard = await DashboardService.findOne({
+      userId: id,
+    });
+
+    if (!dashboard) {
+      sendErrorResponse(res, "Dashboard not found", 404);
+      return;
+    }
+
+    await Promise.all([
+      DashboardService.updateOne(
+        { id: dashboard.id },
+        {
+          gridLayoutConfig: defaultLayoutGroup,
+        }
+      ),
+      LayoutItemService.delete({ dashboardId: dashboard.id }),
+    ]);
+
+    const updateDashboard = await DashboardService.findOneWithLayoutItem({
+      userId: id,
+    });
+
+    sendResponse(res, updateDashboard);
   }
 }
 
