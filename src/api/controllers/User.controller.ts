@@ -1,9 +1,13 @@
 import { Request, Response } from "express";
+import {
+  loginSchema,
+  registerSchema,
+  updateUserProfileSchema,
+} from "../dtos/User.dto";
 import UserService from "../services/User.service";
-import { sendErrorResponse, sendResponse } from "../utils/response.util";
-import { registerSchema, updateUserProfileSchema } from "../dtos/User.dto";
-import { createHash } from "../utils/bcrypt.util";
+import { compareHash, createHash } from "../utils/bcrypt.util";
 import { createJWTToken } from "../utils/jwt.util";
+import { sendErrorResponse, sendResponse } from "../utils/response.util";
 
 export default class UserController {
   static async registerUser(req: Request, res: Response) {
@@ -44,6 +48,37 @@ export default class UserController {
 
     const responsePayload = {
       user: createdUser,
+      authToken,
+    };
+
+    sendResponse(res, responsePayload, 200);
+  }
+
+  static async loginUser(req: Request, res: Response) {
+    const { data } = loginSchema.parse(req.body);
+
+    const user = await UserService.findUnique({ email: data.email });
+
+    if (!user) {
+      sendErrorResponse(res, "User not found", 404);
+      return;
+    }
+
+    const isPasswordMatch = await compareHash(data.password, user.password);
+
+    if (!isPasswordMatch) {
+      sendErrorResponse(res, "Invalid password", 400);
+      return;
+    }
+
+    const authToken = createJWTToken({
+      id: user.id,
+      email: user.email,
+      slug: user.slug,
+    });
+
+    const responsePayload = {
+      user,
       authToken,
     };
 
