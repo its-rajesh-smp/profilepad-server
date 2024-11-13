@@ -1,3 +1,5 @@
+import { defaultSectionLayoutItemConfig } from "../constants/layout.const";
+
 export const addNewItemToGridLayoutConfig = (
   layoutConfig: any,
   item: any,
@@ -5,11 +7,10 @@ export const addNewItemToGridLayoutConfig = (
 ) => {
   const { type } = options;
 
-  const newItem = { ...item };
+  let newItem = { ...item };
 
   if (type === "section") {
-    newItem["isResizable"] = false;
-    newItem["w"] = 20;
+    newItem = { ...newItem, ...defaultSectionLayoutItemConfig };
   }
 
   Object.keys(layoutConfig).forEach((key) => {
