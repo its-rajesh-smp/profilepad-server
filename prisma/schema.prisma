@@ -20,6 +20,7 @@ enum LayoutItemType {
   link
   section
   empty
+  html
 }
 
 model User {

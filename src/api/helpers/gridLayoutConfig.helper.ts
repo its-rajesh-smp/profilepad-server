@@ -1,4 +1,7 @@
-import { defaultSectionLayoutItemConfig } from "../constants/layout.const";
+import {
+  defaultHtmlLayoutItemConfig,
+  defaultSectionLayoutItemConfig,
+} from "../constants/layout.const";
 
 export const addNewItemToGridLayoutConfig = (
   layoutConfig: any,
@@ -9,8 +12,13 @@ export const addNewItemToGridLayoutConfig = (
 
   let newItem = { ...item };
 
-  if (type === "section") {
-    newItem = { ...newItem, ...defaultSectionLayoutItemConfig };
+  switch (type) {
+    case "section":
+      newItem = { ...newItem, ...defaultSectionLayoutItemConfig };
+      break;
+    case "html":
+      newItem = { ...newItem, ...defaultHtmlLayoutItemConfig };
+      break;
   }
 
   Object.keys(layoutConfig).forEach((key) => {

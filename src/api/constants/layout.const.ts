@@ -6,12 +6,17 @@ export const defaultLayoutGroup = {
 export const defaultGridLayoutConfigItem = {
   x: 0,
   y: 0,
-  w: 1,
+  w: 2,
   h: 2,
+  isResizable: false,
 };
 
 export const defaultSectionLayoutItemConfig = {
-  isResizable: false,
   w: 20,
   h: 1,
+};
+
+export const defaultHtmlLayoutItemConfig = {
+  w: 4,
+  h: 4,
 };
