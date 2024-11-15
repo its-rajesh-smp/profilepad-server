@@ -19,4 +19,5 @@ export const defaultSectionLayoutItemConfig = {
 export const defaultHtmlLayoutItemConfig = {
   w: 4,
   h: 4,
+  isResizable: true,
 };
