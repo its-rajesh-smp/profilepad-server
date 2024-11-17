@@ -11,13 +11,18 @@ export const defaultGridLayoutConfigItem = {
   isResizable: false,
 };
 
-export const defaultSectionLayoutItemConfig = {
-  w: 20,
-  h: 1,
-};
-
-export const defaultHtmlLayoutItemConfig = {
-  w: 4,
-  h: 4,
-  isResizable: true,
+export const layoutItemConfigs: any = {
+  section: {
+    w: 20,
+    h: 1,
+  },
+  html: {
+    w: 4,
+    h: 4,
+    isResizable: true,
+  },
+  carousel: {
+    w: 4,
+    h: 4,
+  },
 };

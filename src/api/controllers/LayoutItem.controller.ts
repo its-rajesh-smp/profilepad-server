@@ -31,7 +31,7 @@ class LayoutItemController {
 
     const updatedGridLayoutConfig = addNewItemToGridLayoutConfig(
       dashboard.gridLayoutConfig,
-      { ...defaultGridLayoutConfigItem, i: layoutItem.id },
+      layoutItem.id,
       { type: data.type }
     );
 

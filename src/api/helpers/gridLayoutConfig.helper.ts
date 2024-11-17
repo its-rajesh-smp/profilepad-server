@@ -1,24 +1,21 @@
 import {
-  defaultHtmlLayoutItemConfig,
-  defaultSectionLayoutItemConfig,
+  defaultGridLayoutConfigItem,
+  layoutItemConfigs,
 } from "../constants/layout.const";
 
 export const addNewItemToGridLayoutConfig = (
   layoutConfig: any,
-  item: any,
+  id: string,
   options: any = {}
 ) => {
   const { type } = options;
 
-  let newItem = { ...item };
+  // Set default config with id
+  let newItem = { ...defaultGridLayoutConfigItem, i: id };
 
-  switch (type) {
-    case "section":
-      newItem = { ...newItem, ...defaultSectionLayoutItemConfig };
-      break;
-    case "html":
-      newItem = { ...newItem, ...defaultHtmlLayoutItemConfig };
-      break;
+  // Set default config for type
+  if (layoutItemConfigs[type]) {
+    newItem = { ...newItem, ...layoutItemConfigs[type] };
   }
 
   Object.keys(layoutConfig).forEach((key) => {
