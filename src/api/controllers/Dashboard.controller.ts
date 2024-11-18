@@ -4,6 +4,7 @@ import DashboardService from "../services/Dashboard.service";
 import { sendErrorResponse, sendResponse } from "../utils/response.util";
 import UserService from "../services/User.service";
 import LayoutItemService from "../services/LayoutItem.service";
+import { parseGridLayoutConfig } from "../helpers/gridLayoutConfig.helper";
 
 class DashboardController {
   static async getDashboardPreview(req: Request, res: Response) {
@@ -17,6 +18,7 @@ class DashboardController {
           profileImageSrc: true,
           slug: true,
           name: true,
+          id: true,
         },
       }
     );
@@ -35,8 +37,12 @@ class DashboardController {
       return;
     }
 
+    const parsedGridLayoutConfig = parseGridLayoutConfig(
+      dashboard.gridLayoutConfig
+    );
+
     sendResponse(res, {
-      gridLayoutConfig: dashboard.gridLayoutConfig,
+      gridLayoutConfig: parsedGridLayoutConfig,
       layoutItems: dashboard.layoutItems,
       user,
     });

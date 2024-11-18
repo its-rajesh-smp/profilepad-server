@@ -39,3 +39,18 @@ export const deleteItemFromGridLayoutConfig = (
 
   return updatedLayoutConfig;
 };
+
+export const parseGridLayoutConfig = (layoutConfig: any) => {
+  const updatedLayoutConfig: { [key: string]: [] } = {};
+
+  Object.keys(layoutConfig).forEach((key) => {
+    updatedLayoutConfig[key] = layoutConfig[key].map((item: any) => {
+      return {
+        ...item,
+        isResizable: false,
+      };
+    });
+  });
+
+  return updatedLayoutConfig;
+};
