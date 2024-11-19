@@ -10,7 +10,8 @@
     "build": "tsc",
     "start": "node dist",
     "prisma:migrate": "npx prisma migrate dev --name init",
-    "prisma:generate": "npx prisma generate"
+    "prisma:generate": "npx prisma generate",
+    "prebuild": "npm run prisma:migrate && npm run prisma:generate"
   },
   "author": "",
   "license": "ISC",
