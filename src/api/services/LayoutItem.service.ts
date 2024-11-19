@@ -1,5 +1,4 @@
-import prisma from "@/config/prisma.conf";
-
+import prisma from "../../config/prisma.conf";
 /**
  * Service class for LayoutItem model
  *

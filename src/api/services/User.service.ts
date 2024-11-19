@@ -1,4 +1,4 @@
-import prisma from "@/config/prisma.conf";
+import prisma from "../../config/prisma.conf";
 
 class UserService {
   static async findById(condition: any = {}) {
