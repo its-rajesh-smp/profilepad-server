@@ -19,7 +19,7 @@ export const updateUserProfileSchema = z
   .object({
     data: z.object({
       name: z.string().optional(),
-      headline: z.string().optional(),
+      headline: z.any().optional(),
       profileImageSrc: z.string().optional(),
     }),
   })

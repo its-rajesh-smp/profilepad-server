@@ -6,7 +6,7 @@ declare namespace Express {
       slug: string | null;
       id: string;
       name: string | null;
-      headline: string | null;
+      headline: any;
       profileImageSrc: string | null;
     };
   }
