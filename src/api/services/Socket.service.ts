@@ -34,6 +34,9 @@ export default class SocketService {
       socket.broadcast.emit(SOCKET_EVENTS.PLAYER_JOINED, data);
     });
 
+    socket.on(SOCKET_EVENTS.PLAYER_MOVED, (data: any) => {
+      socket.broadcast.emit(SOCKET_EVENTS.PLAYER_MOVED, data);
+    });
     // Add more event listeners here
   }
 }
