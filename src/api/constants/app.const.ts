@@ -1,1 +1,1 @@
-export const SOCKET = true;
+export const SOCKET = false;
