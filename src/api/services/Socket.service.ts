@@ -13,14 +13,14 @@ export default class SocketService {
    */
   initialize(): void {
     this.io.on(SOCKET_EVENTS.CONNECTION, (socket: Socket) => {
-      console.log(`User connected: ${socket.id}`);
+      // console.log(`User connected: ${socket.id}`);
 
       // Setup event listeners
       this.setupListeners(socket);
 
       // Handle disconnection
       socket.on(SOCKET_EVENTS.DISCONNECT, () => {
-        console.log(`User disconnected: ${socket.id}`);
+        // console.log(`User disconnected: ${socket.id}`);
       });
     });
   }
@@ -37,6 +37,14 @@ export default class SocketService {
     socket.on(SOCKET_EVENTS.PLAYER_MOVED, (data: any) => {
       socket.broadcast.emit(SOCKET_EVENTS.PLAYER_MOVED, data);
     });
-    // Add more event listeners here
+
+    socket.on(SOCKET_EVENTS.CREATE_CALL, (data: any) => {
+      socket.broadcast.emit(SOCKET_EVENTS.RECEIVE_INCOMING_CALL, data);
+    });
+
+    socket.on(SOCKET_EVENTS.CALL_RECEIVED, (data: any) => {
+      console.log(data);
+      socket.broadcast.emit(SOCKET_EVENTS.CALL_RECEIVED, data);
+    });
   }
 }
