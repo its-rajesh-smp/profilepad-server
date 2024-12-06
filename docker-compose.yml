@@ -1,0 +1,13 @@
+services:
+  api:
+    image: itsrajeshsmp/profilepad_api # Use the custom Docker image
+    ports:
+      - "3000:3000"
+    environment:
+      - PORT=3000
+      - DATABASE_URL=postgresql://postgres:postgres@host.docker.internal:5432/profilepad?schema=public
+      - BCRYPT_SALT_ROUNDS=10
+      - JWT_SECRET=*sd3ej20r%52
+    command: sh -c "npm run prisma:migrate && npm run prisma:generate && npm start"
+    expose:
+      - 3000
