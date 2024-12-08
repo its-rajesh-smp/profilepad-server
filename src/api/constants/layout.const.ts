@@ -25,4 +25,8 @@ export const layoutItemConfigs: any = {
     w: 4,
     h: 4,
   },
+  icon: {
+    w: 1,
+    h: 1,
+  },
 };

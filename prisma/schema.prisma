@@ -22,6 +22,7 @@ enum LayoutItemType {
   empty
   html
   carousel
+  icon
 }
 
 model User {

@@ -1,5 +1,4 @@
 import { Request, Response } from "express";
-import { defaultGridLayoutConfigItem } from "../constants/layout.const";
 import {
   addNewItemToGridLayoutConfig,
   deleteItemFromGridLayoutConfig,
