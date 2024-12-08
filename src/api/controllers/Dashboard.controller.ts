@@ -7,6 +7,12 @@ import LayoutItemService from "../services/LayoutItem.service";
 import { parseGridLayoutConfig } from "../helpers/gridLayoutConfig.helper";
 
 class DashboardController {
+  /**
+   * Function to get dashboard preview
+   * @param req
+   * @param res
+   * @returns
+   */
   static async getDashboardPreview(req: Request, res: Response) {
     const { slug } = req.params;
 

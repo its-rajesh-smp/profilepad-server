@@ -27,6 +27,8 @@ app.use(router);
 new SocketService(io).initialize();
 
 /* Start Server */
-httpServer.listen(process.env.PORT || 3000, () => {
-  console.log("Server started on port 3000");
+const port = parseInt(process.env.PORT || "3000");
+
+httpServer.listen(port, "0.0.0.0", () => {
+  console.log(`Server started on port ${port}`);
 });
