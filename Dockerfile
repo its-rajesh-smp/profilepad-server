@@ -31,3 +31,9 @@ COPY --from=build /app/package-lock.json /app/
 COPY --from=build /app/prisma /app/prisma
 COPY --from=build /app/dist /app/dist
 COPY --from=build /app/node_modules /app/node_modules
+
+# Optionally copy other configuration files like .env, if needed
+# COPY --from=build /app/.env /app/.env
+
+# Set the start command (or any other necessary environment setup)
+CMD ["node", "dist/index.js"]
