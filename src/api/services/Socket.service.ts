@@ -15,13 +15,13 @@ export default class SocketService {
    */
   initialize(): void {
     this.io.on(SOCKET_EVENTS.CONNECTION, (socket: Socket) => {
-      console.log("A user connected" + socket.id);
+      // console.log("A user connected" + socket.id);
       // Setup event listeners
       this.setupListeners(socket);
 
       // Handle disconnection
       socket.on(SOCKET_EVENTS.DISCONNECT, () => {
-        console.log("A user disconnected" + socket.id);
+        // console.log("A user disconnected" + socket.id);
         delete mapPlayerIdToSocketId[socket.id];
       });
     });

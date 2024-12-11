@@ -13,7 +13,7 @@ export const addNewItemToGridLayoutConfig = (
   // Set default config with id
   let newItem = { ...defaultGridLayoutConfigItem, i: id };
 
-  // Set default config for type
+  //  Set default config for type
   if (layoutItemConfigs[type]) {
     newItem = { ...newItem, ...layoutItemConfigs[type] };
   }
@@ -33,7 +33,7 @@ export const deleteItemFromGridLayoutConfig = (
 
   Object.keys(layoutConfig).forEach((key) => {
     updatedLayoutConfig[key] = layoutConfig[key].filter(
-      (item: any) => item.id !== id
+      (item: any) => item.i !== id
     );
   });
 
