@@ -8,6 +8,8 @@ const UserRoutes = Router();
 UserRoutes.post("/register", UserController.registerUser);
 UserRoutes.post("/login", UserController.loginUser);
 UserRoutes.get("/verify", AuthMiddleware, UserController.verifyUser);
+UserRoutes.post("/google-login", UserController.loginWithGoogle);
+
 UserRoutes.post("/verify-slug", UserController.verifySlug);
 UserRoutes.patch("/update/profile", AuthMiddleware, UserController.updateUser);
 

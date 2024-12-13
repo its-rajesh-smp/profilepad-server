@@ -4,6 +4,7 @@ import {
   registerSchema,
   updateUserProfileSchema,
 } from "../dtos/User.dto";
+import GoogleService from "../services/Google.service";
 import UserService from "../services/User.service";
 import { compareHash, createHash } from "../utils/bcrypt.util";
 import { createJWTToken } from "../utils/jwt.util";
@@ -64,6 +65,11 @@ export default class UserController {
       return;
     }
 
+    if (!user.password) {
+      sendErrorResponse(res, "Please login with Google", 404);
+      return;
+    }
+
     const isPasswordMatch = await compareHash(data.password, user.password);
 
     if (!isPasswordMatch) {
@@ -114,5 +120,58 @@ export default class UserController {
 
     const updatedUser = await UserService.updateOne({ id: user.id }, data);
     sendResponse(res, { user: updatedUser }, 200);
+  }
+
+  static async loginWithGoogle(req: Request, res: Response) {
+    const { accessToken, slug } = req.body;
+
+    if (!accessToken) {
+      sendErrorResponse(res, "Access token not found", 400);
+      return;
+    }
+
+    const user = await GoogleService.getUserByAccessToken(accessToken);
+
+    if (!user) {
+      sendErrorResponse(res, "Google User not found", 404);
+      return;
+    }
+
+    const userExists = await UserService.findUnique({ email: user.email });
+
+    // if user already exists
+    if (userExists) {
+      const authToken = createJWTToken({
+        id: userExists.id,
+        email: userExists.email,
+        slug: userExists.slug,
+      });
+
+      sendResponse(res, { user: userExists, authToken }, 200);
+      return;
+    } else {
+      // if user does not exist
+
+      if (!slug) {
+        sendErrorResponse(res, "Slug not found", 400);
+        return;
+      }
+
+      const createdUser = await UserService.createOne({
+        name: user.name,
+        email: user.email,
+        slug: slug,
+        profileImageSrc: user.picture,
+        authProvider: "google",
+      });
+
+      const authToken = createJWTToken({
+        id: createdUser.id,
+        email: createdUser.email,
+        slug: slug,
+      });
+
+      sendResponse(res, { user: createdUser, authToken }, 200);
+    }
   }
 }

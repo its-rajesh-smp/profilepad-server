@@ -13,6 +13,10 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum AuthProvider {
+  default
+  google
+}
 
 enum LayoutItemType {
   text
@@ -28,11 +32,12 @@ enum LayoutItemType {
 model User {
   id String @id @default(uuid())
   email String  @unique
-  password String
+  password String?
   name  String?
   headline Json?
   profileImageSrc String?
   slug String? @unique
+  authProvider AuthProvider @default(default)
 
   dashboard Dashboard[]
   layoutItems LayoutItem[]
