@@ -10,9 +10,9 @@ export default class BlogController {
     return;
   }
 
-  static getABlog(req: Request, res: Response) {
+  static async getABlog(req: Request, res: Response) {
     const { id } = req.params;
-    const blog = BlogService.findById({ id });
+    const blog = await BlogService.findById({ id });
 
     if (!blog) {
       sendResponse(res, "Blog not found");
@@ -56,7 +56,6 @@ export default class BlogController {
     const { id } = req.params;
     const { id: userId } = req.user;
     const existingBlog = await BlogService.findById({ id, userId });
-    console.log(existingBlog);
 
     if (!existingBlog) {
       sendResponse(res, "Blog not found");
