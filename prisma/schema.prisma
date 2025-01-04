@@ -41,8 +41,6 @@ model User {
 
   dashboard Dashboard[]
   layoutItems LayoutItem[]
-  blogs Blog[]
-  blogLayoutLinks BlogLayoutLink[]
 }
 
 model Dashboard {
@@ -55,30 +53,6 @@ model Dashboard {
   layoutItems LayoutItem[]
 }
 
-
-model BlogLayoutLink {
-  id String @id @default(uuid())
-
-  userId String
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  blogId String
-  blog Blog @relation(fields: [blogId], references: [id], onDelete: Cascade)
-
-  layoutItemId String @unique
-  layoutItem LayoutItem @relation(fields: [layoutItemId], references: [id], onDelete: Cascade)
-}
-
-model Blog {
-  id String @id @default(uuid())
-  title String
-  content Json?
-
-  userId String
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  blogLayoutLinks BlogLayoutLink[]
-}
 
 model LayoutItem {
   id String @id @default(uuid())
@@ -97,6 +71,4 @@ model LayoutItem {
 
   dashboardId String
   dashboard Dashboard @relation(fields: [dashboardId], references: [id], onDelete: Cascade)
-
-  blogLayoutLink BlogLayoutLink?
 }
