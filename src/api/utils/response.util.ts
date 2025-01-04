@@ -7,7 +7,7 @@ export const sendResponse = (
   data: any,
   statusCode?: statusCode
 ) => {
-  return res.status(statusCode || 200).json({ data: data });
+  return res.status(statusCode || 200).json({ data: data }) as any;
 };
 
 export const sendErrorResponse = (
@@ -15,5 +15,5 @@ export const sendErrorResponse = (
   error: any,
   statusCode?: statusCode
 ) => {
-  return res.status(statusCode || 500).json({ error });
+  return res.status(statusCode || 500).json({ error }) as any;
 };
