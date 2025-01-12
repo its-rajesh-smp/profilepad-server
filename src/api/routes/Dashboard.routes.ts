@@ -25,6 +25,12 @@ dashboardRoutes.patch(
 );
 
 dashboardRoutes.patch(
+  "/setting/update",
+  AuthMiddleware,
+  DashboardController.updateDashboardSetting
+);
+
+dashboardRoutes.patch(
   "/reset",
   AuthMiddleware,
   DashboardController.resetDashboard

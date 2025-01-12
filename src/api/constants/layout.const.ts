@@ -11,6 +11,11 @@ export const defaultGridLayoutConfigItem = {
   isResizable: false,
 };
 
+export const defaultDashboardSetting = {
+  profileAlignment: "top",
+  showProfile: true,
+};
+
 export const layoutItemConfigs: any = {
   section: {
     w: 20,

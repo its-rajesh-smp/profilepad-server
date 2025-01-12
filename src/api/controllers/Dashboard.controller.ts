@@ -1,10 +1,13 @@
 import { Request, Response } from "express";
-import { defaultLayoutGroup } from "../constants/layout.const";
-import DashboardService from "../services/Dashboard.service";
-import { sendErrorResponse, sendResponse } from "../utils/response.util";
-import UserService from "../services/User.service";
-import LayoutItemService from "../services/LayoutItem.service";
+import {
+  defaultDashboardSetting,
+  defaultLayoutGroup,
+} from "../constants/layout.const";
 import { parseGridLayoutConfig } from "../helpers/gridLayoutConfig.helper";
+import DashboardService from "../services/Dashboard.service";
+import LayoutItemService from "../services/LayoutItem.service";
+import UserService from "../services/User.service";
+import { sendErrorResponse, sendResponse } from "../utils/response.util";
 
 class DashboardController {
   /**
@@ -74,6 +77,7 @@ class DashboardController {
 
     const dashboard = await DashboardService.createOne({
       gridLayoutConfig: defaultLayoutGroup,
+      dashboardSetting: defaultDashboardSetting,
       userId: user.id,
     });
 
@@ -100,7 +104,32 @@ class DashboardController {
       }
     );
 
-    sendResponse(res, true);
+    return sendResponse(res, true);
+  }
+
+  static async updateDashboardSetting(req: Request, res: Response) {
+    const { dashboardSetting } = req.body;
+    const { id } = req.user;
+
+    const dashboard = await DashboardService.findOne({
+      userId: id,
+    });
+
+    if (!dashboard) {
+      sendErrorResponse(res, "Dashboard not found", 404);
+      return;
+    }
+
+    console.log(dashboardSetting);
+
+    await DashboardService.updateOne(
+      { id: dashboard.id },
+      {
+        dashboardSetting,
+      }
+    );
+
+    return sendResponse(res, true);
   }
 
   static async resetDashboard(req: Request, res: Response) {
@@ -129,7 +158,7 @@ class DashboardController {
       userId: id,
     });
 
-    sendResponse(res, updateDashboard);
+    return sendResponse(res, updateDashboard);
   }
 }
 
