@@ -17,8 +17,10 @@ async function findOne(
  * @param {Prisma.DashboardCreateArgs} data Data to create the dashboard
  * @returns {Promise<Dashboard>} The created dashboard
  */
-async function create(data: Prisma.DashboardCreateArgs): Promise<Dashboard> {
-  return await prisma.dashboard.create(data);
+async function create(data: any): Promise<Dashboard> {
+  return await prisma.dashboard.create({
+    data,
+  });
 }
 
 /**

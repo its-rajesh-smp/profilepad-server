@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
-import UserService from "../services/User.service";
 import { verifyJWTToken } from "../utils/jwt.util";
 import { sendErrorResponse } from "../utils/response.util";
+import { UserService } from "../services";
 
 const AuthMiddleware = async (
   req: Request,

@@ -34,7 +34,6 @@ model User {
   email String  @unique
   password String?
   name  String?
-  userName String @unique
   profileImageSrc String?
 
   authProvider AuthProvider @default(default)

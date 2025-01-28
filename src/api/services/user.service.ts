@@ -19,8 +19,10 @@ async function findOne(
  * @param {Prisma.UserCreateArgs} data Data to create the user
  * @returns {Promise<User>} The created user
  */
-async function create(data: Prisma.UserCreateArgs): Promise<User> {
-  return await prisma.user.create(data);
+async function create(data: Prisma.UserCreateInput): Promise<User> {
+  return await prisma.user.create({
+    data: data,
+  });
 }
 
 /**
