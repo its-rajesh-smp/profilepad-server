@@ -3,7 +3,7 @@ import { verifyJWTToken } from "../utils/jwt.util";
 import { sendErrorResponse } from "../utils/response.util";
 import { UserService } from "../services";
 
-const AuthMiddleware = async (
+const authMiddleware = async (
   req: Request,
   res: Response,
   next: NextFunction
@@ -46,4 +46,4 @@ const AuthMiddleware = async (
   next();
 };
 
-export default AuthMiddleware;
+export default authMiddleware;

@@ -46,7 +46,7 @@ model Dashboard {
   slug String @unique
   title String
   description String?
-  gridLayouts  Json
+  layouts  Json
 
   userId String @unique
   user User @relation(fields: [userId],references: [id],onDelete: Cascade)
@@ -56,7 +56,7 @@ model Dashboard {
 
 model LayoutItem {
   id String @id @default(uuid())
-  type LayoutItemType
+  variant LayoutItemType
   text String?
   desc String?
   src String?

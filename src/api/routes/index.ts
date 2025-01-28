@@ -1,6 +1,7 @@
 import express from "express";
 import { IRoute } from "../types/others.type";
 import dashboardRoutes from "./dashboard.route";
+import gridItemRoutes from "./grid-item.route";
 import userRoutes from "./user.route";
 
 const router = express.Router();
@@ -13,6 +14,10 @@ const defaultRoutes: IRoute[] = [
   {
     path: "/user",
     route: userRoutes,
+  },
+  {
+    path: "/grid-item",
+    route: gridItemRoutes,
   },
 ];
 
