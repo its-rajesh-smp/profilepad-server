@@ -19,3 +19,8 @@ export const RegisterUserDto = z.object({
       message: "Dashboard slug must be at most 32 characters long.",
     }),
 });
+
+export const LoginUserDto = z.object({
+  email: z.string().email(),
+  password: z.string().min(8),
+});

@@ -12,8 +12,7 @@ const AuthMiddleware = async (
 
   // If authorization header is not present
   if (!authorization) {
-    sendErrorResponse(res, "Unauthorized", 401);
-    return;
+    return sendErrorResponse(res, "Unauthorized", 401);
   }
 
   const authToken = authorization.split(" ")[1];
@@ -27,13 +26,13 @@ const AuthMiddleware = async (
   const decodedData: any = verifyJWTToken(authToken);
 
   // If token is not valid
-  if (!decodedData?.email || !decodedData?.id) {
+  if (!decodedData) {
     sendErrorResponse(res, "Unauthorized - Invalid token", 401);
     return;
   }
 
   // if user exists
-  const user = await UserService.findOne({ id: decodedData.id });
+  const user = await UserService.findOne({ id: decodedData });
   if (!user) {
     sendErrorResponse(
       res,

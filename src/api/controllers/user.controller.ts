@@ -1,8 +1,9 @@
 import { Request, Response } from "express";
 import { defaultDashboardCreationData } from "../constants/dashboard.const";
-import { RegisterUserDto } from "../dtos/user.dto";
+import { LoginUserDto, RegisterUserDto } from "../dtos/user.dto";
 import { DashboardService, UserService } from "../services";
 import {
+  compareHash,
   createHash,
   createJWTToken,
   sendErrorResponse,
@@ -10,10 +11,21 @@ import {
 } from "../utils";
 
 /**
+ * Fetches the user data
+ * @param {Request} _req - The express request object (unused).
+ * @param {Response} res - The express response object used to send back the response.
+ * @returns {Promise<void>} - A promise that resolves when the response is sent.
+ */
+
+const fetchUser = async (_req: Request, res: Response) => {
+  return sendResponse(res, true);
+};
+
+/**
  * Registers a new user
  * @param {Request} req - The express request object, containing the user input in the body.
  * @param {Response} res - The express response object used to send back the response.
- * @returns {Promise<void>} - A promise that resolves to void.
+ * @returns {Promise<void>} - A promise that resolves when the response is sent.
  */
 const register = async (req: Request, res: Response) => {
   const registerInput = RegisterUserDto.parse(req.body);
@@ -44,7 +56,7 @@ const register = async (req: Request, res: Response) => {
   });
 
   // Creating the dashboard
-  const dashboard = await DashboardService.create({
+  await DashboardService.create({
     slug: registerInput.dashboardSlug,
     userId: user.id,
     ...defaultDashboardCreationData,
@@ -55,11 +67,46 @@ const register = async (req: Request, res: Response) => {
 
   const response = {
     user: { ...user, password: undefined },
-    dashboard,
     authToken,
   };
 
   return sendResponse(res, response);
 };
 
-export default { register };
+/**
+ * Logs in a user
+ * @param {Request} req - The express request object, containing the user input in the body.
+ * @param {Response} res - The express response object used to send back the response.
+ * @returns {Promise<void>} - A promise that resolves when the response is sent.
+ */
+const login = async (req: Request, res: Response) => {
+  const { email, password } = LoginUserDto.parse(req.body);
+
+  const user = await UserService.findOne({ email });
+
+  if (!user) {
+    return sendErrorResponse(res, "User not found", 400);
+  }
+
+  if (user.authProvider === "google") {
+    return sendErrorResponse(res, "Please login with google", 400);
+  }
+
+  const isPasswordValid = await compareHash(password, user.password!);
+
+  if (!isPasswordValid) {
+    return sendErrorResponse(res, "Invalid password", 400);
+  }
+
+  // Creating the auth token
+  const authToken = await createJWTToken(user.id);
+
+  const response = {
+    user: { ...user, password: undefined },
+    authToken,
+  };
+
+  return sendResponse(res, response);
+};
+
+export default { register, login, fetchUser };
