@@ -1,1 +1,1 @@
-export { default as dashboardController } from "./Dashboard.controller";
+export { default as dashboardController } from "./dashboard.controller";
