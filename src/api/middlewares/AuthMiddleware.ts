@@ -33,7 +33,7 @@ const AuthMiddleware = async (
   }
 
   // if user exists
-  const user = await UserService.findById({ id: decodedData?.id });
+  const user = await UserService.findOne({ id: decodedData.id });
   if (!user) {
     sendErrorResponse(
       res,
@@ -43,7 +43,7 @@ const AuthMiddleware = async (
     return;
   }
 
-  req.user = user;
+  req.user = user as any;
   next();
 };
 
