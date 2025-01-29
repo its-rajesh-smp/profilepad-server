@@ -5,8 +5,8 @@ export const create = async (gridItem: any) => {
   return await prisma.layoutItem.create({ data: gridItem });
 };
 
-export const findAllByDashboardId = async (dashboardId: string) => {
-  return await prisma.layoutItem.findMany({ where: { dashboardId } });
+export const findAll = async (condition: any) => {
+  return await prisma.layoutItem.findMany({ where: condition });
 };
 
 export const findOne = async (id: string) => {
@@ -24,4 +24,4 @@ export const deleteItem = async (id: string) => {
   return await prisma.layoutItem.delete({ where: { id } });
 };
 
-export default { create, findAllByDashboardId, findOne, update, deleteItem };
+export default { create, findAll, findOne, update, deleteItem };

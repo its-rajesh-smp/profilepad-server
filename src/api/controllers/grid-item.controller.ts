@@ -23,4 +23,18 @@ const createGridItem = async (req: Request, res: Response) => {
   return sendResponse(res, true);
 };
 
-export default { createGridItem };
+export const getAllGridItems = async (req: Request, res: Response) => {
+  const user = req.user;
+  const dashboard = await dashboardService.findOne({ userId: user.id });
+  if (!dashboard) {
+    return sendErrorResponse(res, "Dashboard not found", 404);
+  }
+
+  const gridItems = await gridItemService.findAll({
+    dashboardId: dashboard.id,
+  });
+
+  return sendResponse(res, gridItems);
+};
+
+export default { createGridItem, getAllGridItems };
