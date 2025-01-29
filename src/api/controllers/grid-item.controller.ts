@@ -13,14 +13,14 @@ const createGridItem = async (req: Request, res: Response) => {
   }
 
   await dashboardService.update({ id: dashboard.id }, { layouts: layouts });
-  await gridItemService.create({
-    id: newItem.i,
+  const gridItem = await gridItemService.create({
+    id: newItem.id,
     variant: newItem.variant,
     dashboardId: dashboard.id,
     userId: user.id,
   });
 
-  return sendResponse(res, true);
+  return sendResponse(res, gridItem);
 };
 
 export const getAllGridItems = async (req: Request, res: Response) => {
