@@ -9,7 +9,7 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "mongodb"
   url      = env("DATABASE_URL")
 }
 
@@ -32,7 +32,7 @@ enum LayoutItemType {
 }
 
 model User {
-  id String @id @default(uuid())
+  id String @id @default(uuid()) @map("_id")
   email String  @unique
   password String?
   name  String?
@@ -44,7 +44,7 @@ model User {
 }
 
 model Dashboard {
-  id String @id @default(uuid())
+  id String @id @default(uuid()) @map("_id")
   slug String @unique
   title String
   description String?
@@ -57,7 +57,7 @@ model Dashboard {
 
 
 model LayoutItem {
-  id String @id @default(uuid())
+  id String @id @default(uuid()) @map("_id")
   variant LayoutItemType
   text String?
   desc String?
