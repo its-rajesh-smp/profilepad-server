@@ -28,6 +28,7 @@ enum LayoutItemType {
   carousel
   icon
   title
+  profileHeadline
 }
 
 model User {

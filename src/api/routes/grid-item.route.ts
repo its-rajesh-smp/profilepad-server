@@ -5,5 +5,7 @@ const router = express.Router();
 
 router.get("/all", authMiddleware, gridItemController.getAllGridItems);
 router.post("/", authMiddleware, gridItemController.createGridItem);
+router.patch("/:id", authMiddleware, gridItemController.updateAGridItem);
+router.delete("/:id", authMiddleware, gridItemController.deleteAGridItem);
 
 export default router;

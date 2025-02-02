@@ -9,19 +9,19 @@ export const findAll = async (condition: any) => {
   return await prisma.layoutItem.findMany({ where: condition });
 };
 
-export const findOne = async (id: string) => {
-  return await prisma.layoutItem.findUnique({ where: { id } });
+export const findOne = async (condition: any) => {
+  return await prisma.layoutItem.findUnique({ where: condition });
 };
 
 export const update = async (
-  id: string,
+  condition: any,
   data: Prisma.LayoutItemUpdateInput
 ) => {
-  return await prisma.layoutItem.update({ where: { id }, data });
+  return await prisma.layoutItem.update({ where: condition, data });
 };
 
-export const deleteItem = async (id: string) => {
-  return await prisma.layoutItem.delete({ where: { id } });
+export const deleteItem = async (condition: any) => {
+  return await prisma.layoutItem.delete({ where: condition });
 };
 
 export default { create, findAll, findOne, update, deleteItem };
