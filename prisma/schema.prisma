@@ -64,7 +64,7 @@ model LayoutItem {
   src String?
 
   metadata Json?
-  styles Json?
+  colorVariant String?
 
   userId String
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
