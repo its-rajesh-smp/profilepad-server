@@ -1,13 +1,13 @@
 import express from "express";
-import { dashboardController } from "../controllers";
+import { DashboardController } from "../controllers";
 import authMiddleware from "../middlewares/auth.middleware";
 const router = express.Router();
 
-router.get("/", authMiddleware, dashboardController.getUserDashboard);
+router.get("/", authMiddleware, DashboardController.getUserDashboard);
 router.get(
   "/:slug/availability",
-  dashboardController.checkDashboardSlugAvailability
+  DashboardController.checkDashboardSlugAvailability
 );
-router.patch("/", authMiddleware, dashboardController.updateUserDashboard);
+router.patch("/", authMiddleware, DashboardController.updateUserDashboard);
 
 export default router;

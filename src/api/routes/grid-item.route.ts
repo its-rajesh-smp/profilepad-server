@@ -1,11 +1,11 @@
 import express from "express";
-import { gridItemController } from "../controllers";
+import { GridItemController } from "../controllers";
 import authMiddleware from "../middlewares/auth.middleware";
 const router = express.Router();
 
-router.get("/all", authMiddleware, gridItemController.getAllGridItems);
-router.post("/", authMiddleware, gridItemController.createGridItem);
-router.patch("/:id", authMiddleware, gridItemController.updateAGridItem);
-router.delete("/:id", authMiddleware, gridItemController.deleteAGridItem);
+router.get("/all", authMiddleware, GridItemController.getAllGridItems);
+router.post("/", authMiddleware, GridItemController.createGridItem);
+router.patch("/:id", authMiddleware, GridItemController.updateAGridItem);
+router.delete("/:id", authMiddleware, GridItemController.deleteAGridItem);
 
 export default router;
