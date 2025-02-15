@@ -1,7 +1,8 @@
 import { Request, Response } from "express";
 import { defaultDashboardCreationData } from "../constants/dashboard.const";
 import { LoginUserDto, RegisterUserDto } from "../dtos/user.dto";
-import { DashboardService, UserService } from "../services";
+import { DashboardService, ThirdPartyService, UserService } from "../services";
+
 import {
   compareHash,
   createHash,
@@ -109,4 +110,79 @@ const login = async (req: Request, res: Response) => {
   return sendResponse(res, response);
 };
 
-export default { register, login, fetchUser };
+/**
+ * Logs in a user using Google OAuth2
+ * @param {Request} req - The express request object, containing the user input in the body.
+ * @param {Response} res - The express response object used to send back the response.
+ * @returns {Promise<void>} - A promise that resolves when the response is sent.
+ */
+const googleLogin = async (req: Request, res: Response) => {
+  const { accessToken, slug } = req.body;
+
+  if (!accessToken) {
+    return sendErrorResponse(res, "Access token not found", 400);
+  }
+
+  // Fetching the user data from Google API
+  const googleUser = await ThirdPartyService.getUserByGoogleAccessToken(
+    accessToken
+  );
+
+  if (!googleUser) {
+    return sendErrorResponse(res, "Google User not found", 400);
+  }
+
+  // Checking if user already exists
+  const existingUser = await UserService.findOne({ email: googleUser.email });
+
+  // If user already exists then return the user and login
+  if (existingUser) {
+    // Creating the auth token
+    const authToken = await createJWTToken(existingUser.id);
+
+    const response = {
+      user: { ...existingUser, password: undefined },
+      authToken,
+    };
+    return sendResponse(res, response);
+  } else {
+    // If user does not exist then create a new user and register
+    if (!slug) {
+      return sendErrorResponse(res, "Slug not provided", 400);
+    }
+
+    const isSlugInUsed = await DashboardService.findOne({
+      slug,
+    });
+
+    if (isSlugInUsed) {
+      return sendErrorResponse(res, "Slug already in use", 400);
+    }
+
+    // Creating the user
+    const createdUser = await UserService.create({
+      email: googleUser.email,
+      name: googleUser.name,
+      authProvider: "google",
+    });
+
+    // Creating the dashboard
+    await DashboardService.create({
+      slug,
+      userId: createdUser.id,
+      ...defaultDashboardCreationData,
+    });
+
+    // Creating the auth token
+    const authToken = await createJWTToken(createdUser.id);
+
+    const response = {
+      user: { ...createdUser, password: undefined },
+      authToken,
+    };
+
+    return sendResponse(res, response);
+  }
+};
+
+export default { register, login, fetchUser, googleLogin };

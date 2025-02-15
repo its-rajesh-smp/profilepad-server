@@ -1,7 +1,8 @@
 import cloudinary from "@/config/cloudinary.config";
 import axios from "axios";
-import { getEnv } from "../utils/env.util";
 import { UploadApiResponse } from "cloudinary";
+import { getEnv } from "../utils/env.util";
+import { getHighResProfileImage } from "../utils/others.util";
 
 /**
  * Fetches the contribution calendar from GitHub for the given username
@@ -100,4 +101,48 @@ async function uploadFileToCloudinary(
   }
 }
 
-export default { fetchGithubContributions, uploadFileToCloudinary };
+/**
+ * Fetches user data from Google OAuth2 API using the given access token.
+ * The picture field is converted to a high-res image if present.
+ * @param {string} accessToken The Google OAuth2 access token
+ * @returns {Promise<{
+ *   email: string;
+ *   family_name: string;
+ *   given_name: string;
+ *   id: string;
+ *   locale: string;
+ *   name: string;
+ *   picture: string;
+ *   verified_email: boolean;
+ * }>} The user data
+ * @throws {Error} If there is an error fetching the user data
+ */
+async function getUserByGoogleAccessToken(accessToken: string) {
+  try {
+    const response = await axios.get(
+      "https://www.googleapis.com/oauth2/v2/userinfo",
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }
+    );
+
+    const userData = response.data;
+
+    if (userData.picture) {
+      userData.picture = getHighResProfileImage(userData.picture);
+    }
+
+    return userData;
+  } catch (error) {
+    console.error("Error fetching user data:", error);
+    throw error;
+  }
+}
+
+export default {
+  fetchGithubContributions,
+  uploadFileToCloudinary,
+  getUserByGoogleAccessToken,
+};
