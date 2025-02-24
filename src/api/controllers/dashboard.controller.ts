@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
-import { DashboardService } from "../services";
-import { sendErrorResponse, sendResponse } from "../utils/response.util";
+import { DashboardService, GridItemService } from "../services";
 import dashboardService from "../services/dashboard.service";
+import { sendErrorResponse, sendResponse } from "../utils/response.util";
 
 /**
  * check the availability of the dashboard slug
@@ -30,19 +30,30 @@ const checkDashboardSlugAvailability = async (req: Request, res: Response) => {
  * @throws {Error} If the dashboard is not found.
  */
 const getUserDashboard = async (req: Request, res: Response) => {
-  // const { slug } = req.params;
+  const slug = req.params.slug;
   const user = req.user;
 
-  // if (!slug) {
-  //   return sendErrorResponse(res, "Slug not provided", 400);
-  // }
+  let dashboard = null;
 
-  const dashboard = await DashboardService.findOne({ userId: user.id });
+  if (slug) {
+    dashboard = await DashboardService.findOne({ slug });
+  } else {
+    dashboard = await DashboardService.findOne({ userId: user.id });
+  }
+
   if (!dashboard) {
     return sendErrorResponse(res, "Dashboard not found", 404);
   }
 
-  return sendResponse(res, dashboard);
+  const gridItems = await GridItemService.findAll({
+    dashboardId: dashboard.id,
+  });
+
+  if (!dashboard) {
+    return sendErrorResponse(res, "Dashboard not found", 404);
+  }
+
+  return sendResponse(res, { dashboard, gridItems });
 };
 
 const updateUserDashboard = async (req: Request, res: Response) => {

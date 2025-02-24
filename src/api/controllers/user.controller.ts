@@ -18,8 +18,10 @@ import {
  * @returns {Promise<void>} - A promise that resolves when the response is sent.
  */
 
-const fetchUser = async (_req: Request, res: Response) => {
-  return sendResponse(res, true);
+const fetchUser = async (req: Request, res: Response) => {
+  return sendResponse(res, {
+    user: { ...req.user, password: undefined },
+  });
 };
 
 /**

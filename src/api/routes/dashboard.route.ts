@@ -4,6 +4,7 @@ import authMiddleware from "../middlewares/auth.middleware";
 const router = express.Router();
 
 router.get("/", authMiddleware, DashboardController.getUserDashboard);
+router.get("/:slug", DashboardController.getUserDashboard);
 router.get(
   "/:slug/availability",
   DashboardController.checkDashboardSlugAvailability
