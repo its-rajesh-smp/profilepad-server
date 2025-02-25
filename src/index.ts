@@ -1,6 +1,6 @@
 import cors from "cors";
 import express from "express";
-import router from "./api/routes/index.routes";
+import routes from "./api/routes";
 
 export const app = express();
 
@@ -9,7 +9,7 @@ app.use(express.json());
 app.use(cors({ origin: "*" }));
 
 /* Routes */
-app.use(router);
+app.use(routes);
 
 /* Start Server */
 const port = parseInt(process.env.PORT || "3000");
