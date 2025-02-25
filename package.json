@@ -7,11 +7,11 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon",
-    "build": "tsc && npm run prisma:generate",
+    "build": "tsc",
     "start": "node dist/index.js",
     "prisma:migrate": "npx prisma migrate dev --name init",
     "prisma:generate": "npx prisma generate",
-    "prebuild": "npm run prisma:migrate && npm run prisma:generate",
+    "prebuild": "echo hello_prebuild",
     "vercel-build": "echo hello_world"
   },
   "author": "",
