@@ -1,4 +1,4 @@
-import cloudinary from "@/config/cloudinary.config";
+import cloudinary from "../../config/cloudinary.config";
 import axios from "axios";
 import { UploadApiResponse } from "cloudinary";
 import { getEnv } from "../utils/env.util";

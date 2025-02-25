@@ -1,4 +1,4 @@
-import { getEnv } from "@/api/utils";
+import { getEnv } from "../api/utils";
 import { v2 as cloudinary } from "cloudinary";
 
 cloudinary.config({

@@ -1,4 +1,4 @@
-import prisma from "@/config/prisma.config";
+import prisma from "../../config/prisma.config";
 import { Prisma } from "@prisma/client";
 
 export const create = async (gridItem: any) => {
