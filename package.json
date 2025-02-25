@@ -12,7 +12,7 @@
     "prisma:migrate": "npx prisma migrate dev --name init",
     "prisma:generate": "npx prisma generate",
     "prebuild": "echo hello_prebuild && npx prisma generate",
-    "vercel-build": "npx prisma generate && echo profilePad_api"
+    "vercel-build": "tsc && npx prisma generate && echo profilePad_api"
   },
   "author": "",
   "license": "ISC",
