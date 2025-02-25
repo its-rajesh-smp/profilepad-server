@@ -1,4 +1,4 @@
-import prisma from "@/config/prisma.conf";
+import prisma from "@/config/prisma.config";
 import { Prisma, User } from "@prisma/client";
 
 /**

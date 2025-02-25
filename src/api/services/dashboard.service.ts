@@ -1,4 +1,4 @@
-import prisma from "@/config/prisma.conf";
+import prisma from "@/config/prisma.config";
 import { Dashboard, Prisma } from "@prisma/client";
 
 /**
